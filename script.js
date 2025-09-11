@@ -1,5 +1,5 @@
     // === 替换为你的 Formspree 端点 ===
-    const FORM_ENDPOINT = 'https://formspree.io/f/mpwjlwbk';
+    const FORM_ENDPOINT = 'https://formspree.io/f/mkgvyepg';
 
     // DOM
     const chatLog   = document.getElementById('chat-log');
@@ -43,10 +43,15 @@
     function botRespond() {
       if (stage === 0) {
         createMsg(
-          '好的～请问您有没有忌口或不吃的食材呢？告诉我您的偏好，我来为您推荐合适的套餐哦！',
+          '好的～请先告诉我您的口味偏好和预算。我来为您推荐合适的套餐哦！',
           'bot'
         );
       } else if (stage === 1) {
+        createMsg(
+          '了解啦～那请问您有没有忌口或不吃的食材呢？我这边帮您记录一下。',
+          'bot'
+        );
+      } else if (stage === 2) {
         createMsg(
           '很抱歉，我没能理解您的需求。期待下次能够为您提供更好地服务！',
           'bot'
@@ -56,7 +61,7 @@
           createMsg(`🎉 感谢您的反馈，本轮对话已结束，您的服务代码是 <b>${convoId}</b>，请返回问卷继续作答。`, 'bot');
           // 对话正式结束：一次性上传
           submitAllMessagesOnce();
-        }, 800);
+        }, 1500);
       }
       stage++;
     }
@@ -139,7 +144,7 @@
       setTimeout(() => {
         sendBtn.disabled = false;
         botRespond();
-      }, 600);
+      }, 1000);
     }
 
     sendBtn.onclick = sendMessage;

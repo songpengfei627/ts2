@@ -42,24 +42,20 @@
 
     function botRespond() {
       if (stage === 0) {
-        createMsg(
-          '本店主打融合菜系，可选:川菜 /粤菜 / 淮扬菜 / 素食等。您更偏好哪种口味呢?',
-          'bot'
-        );
-
-      } else if (stage === 1) {
-        createMsg(
-          '好的，我这边记录下来了~请问您有没有忌口或不吃的食材呢?告诉您的忌口，我来为您推荐合适的套餐哦!',
-          'bot'
-        );
-
-        setTimeout(() => {
-          createMsg(`🎉 感谢您的反馈，本轮对话已结束，您的服务代码是 <b>${convoId}</b>，<b>服务结果将在随后呈现</b>，请返回问卷继续作答。`, 'bot');
-          // 对话正式结束：一次性上传
-          submitAllMessagesOnce();
-        }, 1500);
+        createMsg('本店主打融合菜系，可选：川菜 / 粤菜 / 淮扬菜 / 素食等。您更偏好哪种口味呢？', 'bot');
+        stage = 1; // 等待用户回答菜系
+        return;
       }
-      stage++;
+      if (stage === 1) {
+        createMsg('好的，我这边记录下来了～请问有没有忌口或不吃的食材呢？告诉我后我来推荐合适的套餐哦！', 'bot');
+        stage = 2; // 等待用户说忌口
+        return;
+      }
+      if (stage === 2) {
+        createMsg(`🎉 感谢您的反馈，本轮对话已结束，您的服务代码是 <b>${convoId}</b>，<b>服务结果将在随后呈现</b>，请返回问卷继续作答。`, 'bot');
+        submitAllMessagesOnce();
+        stage = 3; // 结束
+      }
     }
 
     // —— 一次性提交（静默）：先直连 JSON，再失败降级 no-cors（都不插 UI 气泡）——
